@@ -30,36 +30,42 @@
   }
   // 선생님 해제: 고정 4자리 비밀번호(사용자 결정 — 공개돼도 됨)
   const TEACHER_PIN = "8332";
-  (function pinPad() {
+  // 새 학생: 놀이 시간 + 별 기록 초기화
+  function resetAll() {
+    delete store.sessionStart;
+    store.best = {};
+    save();
+    Sound.fanfare();
+    home();
+    tickTimer();
+  }
+  // 4자리 키패드(box 안의 .pin-*), 맞으면 onOk
+  function pinPad(box, onOk) {
     let buf = "";
-    const dots = () => document.querySelectorAll("#pinDots i").forEach((d, k) => d.classList.toggle("on", k < buf.length));
-    const msg = (t, bad) => { $("#pinMsg").textContent = t; $("#pinMsg").classList.toggle("bad", !!bad); };
-    const label = () => { $("#pinLabel").textContent = "🔒 선생님 비밀번호"; };
-    const shake = () => { const d = $("#pinDots"); d.classList.remove("shake"); void d.offsetWidth; d.classList.add("shake"); };
-    function unlocked() {
-      delete store.sessionStart; save();
-      Sound.fanfare();
-      home();
-      tickTimer();
-    }
-    function done() {
-      const pin = buf;
-      buf = ""; dots();
-      if (pin === TEACHER_PIN) { msg(""); return unlocked(); }
-      msg("비밀번호가 틀렸어요", true); shake();
-    }
-    $("#pinPad").addEventListener("click", (e) => {
+    const q = (s) => box.querySelector(s);
+    const dots = () => box.querySelectorAll(".pin-dots i").forEach((d, k) => d.classList.toggle("on", k < buf.length));
+    const msg = (t, bad) => { q(".pin-msg").textContent = t; q(".pin-msg").classList.toggle("bad", !!bad); };
+    const shake = () => { const d = q(".pin-dots"); d.classList.remove("shake"); void d.offsetWidth; d.classList.add("shake"); };
+    q(".pin-pad").addEventListener("click", (e) => {
       const b = e.target.closest("button");
       if (!b || b.disabled) return;
       if (b.hasAttribute("data-del")) buf = buf.slice(0, -1);
       else if (buf.length < 4) buf += b.textContent.trim();
       dots();
-      if (buf.length === 4) setTimeout(done, 120);
+      if (buf.length === 4) setTimeout(() => {
+        const ok = buf === TEACHER_PIN;
+        buf = ""; dots();
+        if (ok) { msg(""); onOk(); } else { msg("비밀번호가 틀렸어요", true); shake(); }
+      }, 120);
     });
-    label();
-    new MutationObserver(() => { if (!$("#timeup").hidden) { buf = ""; dots(); msg(""); label(); } })
-      .observe($("#timeup"), { attributes: true, attributeFilter: ["hidden"] });
-  })();
+    return { clear() { buf = ""; dots(); msg(""); } };
+  }
+  const lockPad = pinPad($("#pinLock"), resetAll);
+  new MutationObserver(() => { if (!$("#timeup").hidden) lockPad.clear(); })
+    .observe($("#timeup"), { attributes: true, attributeFilter: ["hidden"] });
+  const resetPad = pinPad($("#pinReset"), () => { $("#resetModal").hidden = true; resetAll(); });
+  $("#resetBtn").addEventListener("click", () => { resetPad.clear(); $("#resetModal").hidden = false; });
+  $("#resetClose").addEventListener("click", () => { $("#resetModal").hidden = true; });
   setInterval(tickTimer, 1000);
   const starStr = (n, max = 3) => "★".repeat(n) + "☆".repeat(max - n);
 

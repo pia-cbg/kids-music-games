@@ -27,7 +27,8 @@
       <button data-grade="high">🦁 4~6학년</button>
     </div>
     <div id="cards" class="cards"></div>
-    <p class="tip">🔈 소리가 안 나면 휴대폰 무음 모드를 꺼 주세요</p>
+    <p class="tip">🔈 소리가 안 나면 무음 모드를 꺼 주세요</p>
+    <button class="reset-btn" id="resetBtn">🔄 시간·별 초기화 (선생님)</button>
     <footer class="copy"><img src="icon-180.png" alt="" width="28" height="28"> © <span class="yr"></span> 예종피아노음악학원. All rights reserved.</footer>
   </section>
 
@@ -66,18 +67,36 @@
       <div class="moon">🌙</div>
       <h2>오늘 놀이 시간 끝!</h2>
       <p>15분 동안 열심히 했어요. 수고했어요! 👏</p>
-      <div class="pin-box">
-        <div class="pin-label" id="pinLabel">🔒 선생님 비밀번호</div>
-        <div class="pin-dots" id="pinDots"><i></i><i></i><i></i><i></i></div>
-        <div class="pin-msg" id="pinMsg"></div>
-        <div class="pin-pad" id="pinPad">
+      <div id="pinLock"><div class="pin-box">
+        <div class="pin-label">🔒 선생님 비밀번호</div>
+        <div class="pin-dots"><i></i><i></i><i></i><i></i></div>
+        <div class="pin-msg"></div>
+        <div class="pin-pad">
           <button>1</button><button>2</button><button>3</button><button>4</button><button>5</button><button>6</button>
           <button>7</button><button>8</button><button>9</button><button class="blank" disabled></button><button>0</button><button data-del>⌫</button>
         </div>
-      </div>
+      </div></div>
     </div>
     <footer class="copy">© <span class="yr"></span> 예종피아노음악학원</footer>
   </section>
+
+  <!-- 선생님: 시간·별 초기화 -->
+  <div id="resetModal" class="modal" hidden>
+    <div class="modal-card">
+      <button class="modal-x" id="resetClose" aria-label="닫기">✕</button>
+      <h3>🔄 다음 학생 시작</h3>
+      <p class="muted-p">놀이 시간 15분과 별 기록을 모두 처음으로 되돌려요</p>
+      <div id="pinReset"><div class="pin-box">
+        <div class="pin-label">🔒 선생님 비밀번호</div>
+        <div class="pin-dots"><i></i><i></i><i></i><i></i></div>
+        <div class="pin-msg"></div>
+        <div class="pin-pad">
+          <button>1</button><button>2</button><button>3</button><button>4</button><button>5</button><button>6</button>
+          <button>7</button><button>8</button><button>9</button><button class="blank" disabled></button><button>0</button><button data-del>⌫</button>
+        </div>
+      </div></div>
+    </div>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.3/build/cjs/vexflow.js"></script>
   <script src="js/sound.js"></script>
