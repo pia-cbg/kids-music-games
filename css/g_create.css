@@ -1,0 +1,55 @@
+/* 만들기·색칠 게임(g_create.js) */
+.gc-pic { color: var(--muted); font-size: 16px; }
+.gc-icon { width: 70%; height: 70%; color: #2b2240; display: block; margin: auto; }
+
+/* 음표 색칠하기 */
+.gc-grid { display: grid; grid-template-columns: repeat(var(--cols), 1fr); gap: 3px; background: #fff; padding: 8px; border-radius: 20px; box-shadow: var(--shadow); margin: 0 auto 14px; max-width: min(100%, 640px); touch-action: none; }
+.gc-cell { aspect-ratio: 1; border-radius: 6px; background: #f6f1e6; display: grid; place-items: center; font-size: clamp(11px, 2.6vw, 20px); color: #5b4f70; transition: background 0.15s, transform 0.15s; }
+.gc-cell.empty { background: transparent; }
+.gc-cell.done { background: var(--c); color: transparent; transform: scale(1.04); }
+.gc-cell.done .gc-icon { opacity: 0; }
+.gc-cell.nope { animation: shake 0.35s; background: #ffd9da; }
+.gc-grid.complete { animation: pop 0.6s; }
+.gc-palette { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.gc-palette button { display: flex; align-items: center; gap: 8px; border: 3px solid transparent; background: #fff; border-radius: 16px; padding: 8px 12px; box-shadow: var(--shadow); font-size: 20px; min-height: 56px; }
+.gc-palette button .sw { width: 30px; height: 30px; border-radius: 50%; background: var(--c); flex: none; }
+.gc-palette button .nm { display: flex; align-items: center; gap: 4px; }
+.gc-palette button .nm .gc-icon { width: 26px; height: 34px; margin: 0; }
+.gc-palette button small { font-size: 14px; color: var(--muted); }
+.gc-palette button.on { border-color: var(--c); transform: translateY(-3px); }
+.gc-palette button.finished { opacity: 0.4; }
+
+/* 소리 그림판 */
+.gc-brushes { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 10px; }
+.gc-brushes button { display: flex; align-items: center; gap: 6px; border: 3px solid transparent; background: #fff; border-radius: 14px; padding: 8px 12px; box-shadow: var(--shadow); font-size: 17px; }
+.gc-brushes button .sw { width: 24px; height: 24px; border-radius: 50%; background: var(--c); }
+.gc-brushes button.on { border-color: var(--c); transform: translateY(-3px); }
+.gc-canvas-wrap { position: relative; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow); background: #fff; touch-action: none; }
+.gc-canvas-wrap canvas { display: block; touch-action: none; }
+.gc-playhead { position: absolute; top: 0; bottom: 0; width: 4px; margin-left: -2px; background: rgba(255, 107, 157, 0.7); opacity: 0; left: 0; transition: left 0.12s linear; pointer-events: none; }
+.gc-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; align-items: center; margin-top: 12px; }
+
+/* 멜로디·비트 칸 */
+.gc-seq { display: grid; grid-template-columns: 48px repeat(var(--steps), minmax(0, 1fr)); gap: 4px; background: #fff; padding: 8px; border-radius: 20px; box-shadow: var(--shadow); }
+.gc-seq.wide { gap: 3px; }
+.gc-lab { display: grid; place-items: center; font-size: 17px; color: #fff; background: var(--c); border-radius: 10px; line-height: 1.1; text-align: center; }
+.gc-seq.drums .gc-lab { font-size: 20px; background: #fff4e6; color: var(--ink); }
+.gc-seq.drums .gc-lab small { font-size: 11px; display: block; color: var(--muted); }
+.gc-step { aspect-ratio: 1; border: 0; border-radius: 8px; background: #f3eee4; padding: 0; min-width: 0; min-height: 30px; transition: transform 0.08s; }
+.gc-step.beat { background: #e9e1d0; }
+.gc-step.on { background: var(--c); box-shadow: inset 0 -3px 0 rgba(0, 0, 0, 0.18); }
+.gc-step.now { outline: 3px solid rgba(255, 107, 157, 0.75); outline-offset: -1px; }
+.gc-step.on.now { transform: scale(1.12); }
+.gc-seq.wide .gc-step { border-radius: 6px; min-height: 24px; }
+.gc-tempo { display: inline-flex; align-items: center; gap: 6px; font-size: 18px; }
+.gc-tempo input { width: 140px; accent-color: var(--pink); }
+.gc-tempo b { font-weight: 400; min-width: 34px; }
+.gc-presets { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 10px; }
+.chip-b { border: 0; background: #fff; border-radius: 999px; padding: 8px 14px; box-shadow: var(--shadow); font-size: 16px; }
+.chip-b:active { transform: translateY(2px); box-shadow: none; }
+@media (max-width: 520px) {
+  .gc-seq { grid-template-columns: 34px repeat(var(--steps), minmax(0, 1fr)); padding: 6px; }
+  .gc-seq.wide { gap: 2px; }
+  .gc-seq.wide .gc-step { min-height: 0; aspect-ratio: 0.7; border-radius: 4px; }
+  .gc-lab { font-size: 14px; }
+}

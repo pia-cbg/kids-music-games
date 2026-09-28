@@ -13,6 +13,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/g_create.css">
+  <link rel="stylesheet" href="css/g_listen.css">
+  <link rel="stylesheet" href="css/g_play.css">
 </head>
 <body>
   <!-- 홈 -->
@@ -27,6 +30,7 @@
       <button data-grade="low" class="on">🐣 1~3학년</button>
       <button data-grade="high">🦁 4~6학년</button>
     </div>
+    <nav id="cats" class="cats" aria-label="분류"></nav>
     <div id="cards" class="cards"></div>
     <p class="tip">🔈 소리가 안 나면 무음 모드를 꺼 주세요</p>
     <button class="reset-btn" id="resetBtn">🔄 시간·별 초기화 (선생님)</button>
@@ -102,6 +106,9 @@
   <script src="https://cdn.jsdelivr.net/npm/vexflow@4.2.3/build/cjs/vexflow.js"></script>
   <script src="js/sound.js"></script>
   <script src="js/games.js"></script>
+  <script src="js/g_create.js"></script>
+  <script src="js/g_listen.js"></script>
+  <script src="js/g_play.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

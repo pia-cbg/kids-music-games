@@ -1,0 +1,17 @@
+/* 듣기 게임(g_listen.js) */
+.lis-ico { font-size: 96px; padding: 28px 0; transition: transform 0.2s; }
+.lis-ico.on { animation: lisPulse 0.6s ease-in-out infinite; }
+@keyframes lisPulse { 50% { transform: scale(1.15); } }
+.choices.lis-wait button { opacity: 0.5; pointer-events: none; }
+.lis-big { display: block; font-size: 44px; line-height: 1.15; margin-bottom: 4px; }
+.lis-hair { display: block; width: 90px; height: 30px; margin: 0 auto 6px; color: var(--brand-dark); }
+.lis-shape { display: block; width: 100%; max-width: 130px; height: 64px; margin: 0 auto 4px; color: var(--blue); }
+.lis-int { font-size: 26px; }
+.choices button small { color: var(--muted); font-size: 14px; }
+.choices button.good small, .choices button.bad small { color: #fff; }
+@media (min-width: 700px) {
+  .lis-ico { font-size: 130px; }
+  .lis-big { font-size: 56px; }
+  .lis-hair { width: 120px; height: 40px; }
+  .lis-int { font-size: 32px; }
+}

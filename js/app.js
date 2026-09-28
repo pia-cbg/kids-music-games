@@ -70,11 +70,29 @@
   const starStr = (n, max = 3) => "★".repeat(n) + "☆".repeat(max - n);
 
   // ── 홈 ──
+  // 홈 분류 탭
+  const CATS = [
+    { id: "all", label: "전체" },
+    { id: "score", label: "🎼 악보", has: ["score"] },
+    { id: "listen", label: "👂 듣기", has: ["listen"] },
+    { id: "play", label: "🎮 리듬·놀이", has: ["rhythm", "play"] },
+    { id: "create", label: "🎨 만들기", has: ["create"] },
+  ];
+  let cat = store.cat || "all";
+  function catTabs() {
+    $("#cats").innerHTML = CATS.map((c) => {
+      const n = c.has ? GAMES.filter((g) => c.has.includes(g.cat)).length : GAMES.length;
+      return n ? `<button data-cat="${c.id}" class="${c.id === cat ? "on" : ""}">${c.label}<small>${n}</small></button>` : "";
+    }).join("");
+  }
   function home() {
     stopGame();
     if (startedAt() && left() <= 0) return timeUp();
     document.querySelectorAll(".grade button").forEach((b) => b.classList.toggle("on", b.dataset.grade === grade));
-    $("#cards").innerHTML = GAMES.map((g) => {
+    catTabs();
+    const C = CATS.find((c) => c.id === cat) || CATS[0];
+    const list = C.has ? GAMES.filter((g) => C.has.includes(g.cat)) : GAMES;
+    $("#cards").innerHTML = list.map((g) => {
       const best = store.best[`${g.id}-${grade}`] || 0;
       return `<button class="gcard" data-id="${g.id}">
         <span class="gemoji">${g.emoji}</span>
@@ -90,6 +108,14 @@
     save();
     home();
   }));
+  $("#cats").addEventListener("click", (e) => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    cat = b.dataset.cat;
+    store.cat = cat;
+    save();
+    home();
+  });
   $("#cards").addEventListener("click", (e) => {
     const c = e.target.closest(".gcard");
     if (c) startGame(c.dataset.id);
