@@ -65,9 +65,16 @@
     <div class="result-card">
       <div class="moon">🌙</div>
       <h2>오늘 놀이 시간 끝!</h2>
-      <p>15분 동안 열심히 했어요. 수고했어요! 👏<br><small>선생님: 로고를 3초 동안 꾹 누르면 다음 학생이 시작할 수 있어요</small></p>
-      <img class="logo lock-logo" id="unlock" src="logo.png" alt="선생님 해제" width="110" height="110">
-      <div class="hold"><div id="holdBar"></div></div>
+      <p>15분 동안 열심히 했어요. 수고했어요! 👏</p>
+      <div class="pin-box">
+        <div class="pin-label" id="pinLabel">🔒 선생님 비밀번호</div>
+        <div class="pin-dots" id="pinDots"><i></i><i></i><i></i><i></i></div>
+        <div class="pin-msg" id="pinMsg"></div>
+        <div class="pin-pad" id="pinPad">
+          <button>1</button><button>2</button><button>3</button><button>4</button><button>5</button><button>6</button>
+          <button>7</button><button>8</button><button>9</button><button class="blank" disabled></button><button>0</button><button data-del>⌫</button>
+        </div>
+      </div>
     </div>
     <footer class="copy">© <span class="yr"></span> 예종피아노음악학원</footer>
   </section>

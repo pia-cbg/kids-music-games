@@ -28,25 +28,37 @@
     show("timeup");
     window.scrollTo(0, 0);
   }
-  // 선생님 해제: 로고 3초 꾹 누르기
-  (function unlock() {
-    const el = $("#unlock"), bar = $("#holdBar");
-    let t = null, t0 = 0, raf = 0;
-    const stop = () => { clearTimeout(t); cancelAnimationFrame(raf); bar.style.width = "0"; };
-    const step = () => { bar.style.width = Math.min(100, ((Date.now() - t0) / 3000) * 100) + "%"; raf = requestAnimationFrame(step); };
-    el.addEventListener("pointerdown", (e) => {
-      e.preventDefault();
-      t0 = Date.now(); step();
-      t = setTimeout(() => {
-        stop();
-        delete store.sessionStart; save();
-        Sound.fanfare();
-        home();
-        tickTimer();
-      }, 3000);
+  // 선생님 해제: 고정 4자리 비밀번호(사용자 결정 — 공개돼도 됨)
+  const TEACHER_PIN = "8332";
+  (function pinPad() {
+    let buf = "";
+    const dots = () => document.querySelectorAll("#pinDots i").forEach((d, k) => d.classList.toggle("on", k < buf.length));
+    const msg = (t, bad) => { $("#pinMsg").textContent = t; $("#pinMsg").classList.toggle("bad", !!bad); };
+    const label = () => { $("#pinLabel").textContent = "🔒 선생님 비밀번호"; };
+    const shake = () => { const d = $("#pinDots"); d.classList.remove("shake"); void d.offsetWidth; d.classList.add("shake"); };
+    function unlocked() {
+      delete store.sessionStart; save();
+      Sound.fanfare();
+      home();
+      tickTimer();
+    }
+    function done() {
+      const pin = buf;
+      buf = ""; dots();
+      if (pin === TEACHER_PIN) { msg(""); return unlocked(); }
+      msg("비밀번호가 틀렸어요", true); shake();
+    }
+    $("#pinPad").addEventListener("click", (e) => {
+      const b = e.target.closest("button");
+      if (!b || b.disabled) return;
+      if (b.hasAttribute("data-del")) buf = buf.slice(0, -1);
+      else if (buf.length < 4) buf += b.textContent.trim();
+      dots();
+      if (buf.length === 4) setTimeout(done, 120);
     });
-    ["pointerup", "pointerleave", "pointercancel"].forEach((ev) => el.addEventListener(ev, stop));
-    el.addEventListener("contextmenu", (e) => e.preventDefault());
+    label();
+    new MutationObserver(() => { if (!$("#timeup").hidden) { buf = ""; dots(); msg(""); label(); } })
+      .observe($("#timeup"), { attributes: true, attributeFilter: ["hidden"] });
   })();
   setInterval(tickTimer, 1000);
   const starStr = (n, max = 3) => "★".repeat(n) + "☆".repeat(max - n);
@@ -80,6 +92,7 @@
   // ── 게임 진행 ──
   let cur = null;          // { game, token, cleanup, score, combo }
   function stopGame() {
+    Sound.stopAll();
     if (cur && cur.cleanup) cur.cleanup();
     if (cur) cur.token.alive = false;
     cur = null;
@@ -150,6 +163,7 @@
     "완벽해요! 음악 천재! 🏆",
   ];
   function result(game, stars, title, score, isBest) {
+    Sound.stopAll();
     if (cur && cur.cleanup) cur.cleanup();
     $("#rStars").innerHTML = [0, 1, 2].map((k) => `<span class="${k < stars ? "on" : ""}" style="animation-delay:${0.25 + k * 0.25}s">★</span>`).join("");
     $("#rTitle").textContent = title;
@@ -167,6 +181,7 @@
     setTimeout(() => { box.innerHTML = ""; }, 4000);
   }
 
+  document.addEventListener("visibilitychange", () => { if (document.hidden) Sound.stopAll(); });
   $("#back").addEventListener("click", home);
   $("#home2").addEventListener("click", home);
   document.querySelectorAll(".yr").forEach((e) => { e.textContent = new Date().getFullYear(); });

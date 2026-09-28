@@ -158,9 +158,18 @@ button { font: inherit; color: inherit; cursor: pointer; touch-action: manipulat
 .gtimer { font-size: 15px; color: var(--brand-dark); white-space: nowrap; }
 .gtimer.warn { color: var(--red); animation: pop 1s infinite; }
 .moon { font-size: 70px; }
-.lock-logo { margin-top: 18px; cursor: pointer; touch-action: none; -webkit-touch-callout: none; }
-.hold { width: 160px; height: 8px; background: #f2eadb; border-radius: 99px; margin: 10px auto 0; overflow: hidden; }
-.hold div { height: 100%; width: 0; background: var(--brand); }
+.pin-box { margin-top: 10px; }
+.pin-label { font-size: 18px; color: var(--brand-dark); }
+.pin-dots { display: flex; gap: 14px; justify-content: center; margin: 14px 0 6px; }
+.pin-dots i { width: 18px; height: 18px; border-radius: 50%; border: 3px solid var(--brand); }
+.pin-dots i.on { background: var(--brand); }
+.pin-dots.shake { animation: shake 0.35s; }
+.pin-msg { min-height: 22px; font-size: 15px; color: var(--muted); }
+.pin-msg.bad { color: var(--red); }
+.pin-pad { display: grid; grid-template-columns: repeat(3, 76px); gap: 10px; justify-content: center; margin-top: 8px; }
+.pin-pad button { height: 64px; border: 0; border-radius: 18px; background: #fff4e6; box-shadow: var(--shadow); font-size: 26px; }
+.pin-pad button:active { transform: translateY(2px); box-shadow: none; }
+.pin-pad button.blank { visibility: hidden; }
 
 /* 아이패드·넓은 화면: 카드 2열, 큰 버튼 */
 @media (min-width: 700px) {

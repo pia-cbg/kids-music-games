@@ -65,5 +65,17 @@ const Sound = (() => {
   const fanfare = () => [72, 76, 79, 84].forEach((m, i) => note(m, i === 3 ? 0.8 : 0.18, i * 0.13, 0.25));
   const now = () => ac().currentTime;
 
-  return { ac, note, click, drum, ding, buzz, fanfare, now };
+  // 예약된 소리까지 모두 끊기: 출력 통로를 새로 만들고 옛 통로를 끊음(이미 예약된 음은 옛 통로에 붙어 있음)
+  function stopAll() {
+    if (!ctx) return;
+    const old = out;
+    out = ctx.createGain();
+    out.gain.value = 0.85;
+    out.connect(ctx.destination);
+    old.gain.cancelScheduledValues(ctx.currentTime);
+    old.gain.setValueAtTime(0, ctx.currentTime);
+    old.disconnect();
+  }
+
+  return { ac, note, click, drum, ding, buzz, fanfare, now, stopAll };
 })();
