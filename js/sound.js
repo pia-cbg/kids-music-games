@@ -77,5 +77,8 @@ const Sound = (() => {
     old.disconnect();
   }
 
-  return { ac, note, click, drum, ding, buzz, fanfare, now, stopAll };
+  // 게임에서 직접 소리를 만들 때 연결할 출력(stopAll 로 함께 끊김). 반드시 호출할 때마다 받아 쓸 것
+  const dest = () => { ac(); return out; };
+
+  return { ac, note, click, drum, ding, buzz, fanfare, now, stopAll, dest };
 })();

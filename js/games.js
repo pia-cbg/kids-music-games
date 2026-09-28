@@ -33,7 +33,7 @@ function drawNote(el, pos, clef, color) {
 const GAMES = [
   // ── 1. 계이름 맞히기 ──
   {
-    id: "notes", emoji: "🎼", title: "계이름 맞히기",
+    id: "notes", cat: "score", emoji: "🎼", title: "계이름 맞히기",
     desc: (g) => (g === "low" ? "높은음자리표 도~도, 색깔 힌트" : "높은음·낮은음자리표, 덧줄까지"),
     start(api) {
       const N = 10, low = api.grade === "low";
@@ -83,7 +83,7 @@ const GAMES = [
 
   // ── 2. 높은 소리 낮은 소리 ──
   {
-    id: "pitch", emoji: "👂", title: "높은 소리 낮은 소리",
+    id: "pitch", cat: "listen", emoji: "👂", title: "높은 소리 낮은 소리",
     desc: (g) => (g === "low" ? "두 소리 중 더 높은 소리 찾기" : "아주 비슷한 소리도 구별해요 + 같아요"),
     start(api) {
       const N = 10, low = api.grade === "low";
@@ -144,7 +144,7 @@ const GAMES = [
 
   // ── 3. 리듬 따라치기 ──
   {
-    id: "rhythm", emoji: "🥁", title: "리듬 따라치기",
+    id: "rhythm", cat: "rhythm", emoji: "🥁", title: "리듬 따라치기",
     desc: (g) => (g === "low" ? "4분·8분음표, 4분쉼표, 2분음표" : "점4분음표·당김음·엇박까지"),
     start(api) {
       const N = 8, low = api.grade === "low";
@@ -285,7 +285,7 @@ const GAMES = [
 
   // ── 4. 건반 따라치기(기억력) ──
   {
-    id: "simon", emoji: "🎹", title: "건반 따라치기",
+    id: "simon", cat: "play", emoji: "🎹", title: "건반 따라치기",
     desc: (g) => (g === "low" ? "도~솔 5건반, 들은 순서대로 누르기" : "도~높은 도 8건반, 더 빠르게"),
     start(api) {
       const low = api.grade === "low";
@@ -423,7 +423,7 @@ function drawSnippet(el, { dur = "q", key = "b/4", clef = null, artic = null, re
 GAMES.push(
   // ── 5. 박자 퀴즈 ──
   {
-    id: "beats", emoji: "⏱️", title: "몇 박일까요?",
+    id: "beats", cat: "score", emoji: "⏱️", title: "몇 박일까요?",
     desc: (g) => (g === "low" ? "온·2분·4분·8분음표와 쉼표" : "점음표·16분음표·여러 쉼표까지"),
     start(api) {
       const low = api.grade === "low";
@@ -450,7 +450,7 @@ GAMES.push(
 
   // ── 6. 건반 찾기 ──
   {
-    id: "keys", emoji: "🔍", title: "건반 찾기",
+    id: "keys", cat: "score", emoji: "🔍", title: "건반 찾기",
     desc: (g) => (g === "low" ? "말한 계이름의 흰 건반 누르기" : "검은 건반(♯·♭)까지 찾기"),
     start(api) {
       const low = api.grade === "low", N = 10;
@@ -507,7 +507,7 @@ GAMES.push(
 
   // ── 7. 음악 기호 퀴즈 ──
   {
-    id: "symbols", emoji: "🔣", title: "음악 기호 퀴즈",
+    id: "symbols", cat: "score", emoji: "🔣", title: "음악 기호 퀴즈",
     desc: (g) => (g === "low" ? "p·f, 도돌이표, 쉼표, 높은음자리표" : "셈여림·빠르기말·임시표·늘임표·스타카토"),
     start(api) {
       const low = api.grade === "low";
@@ -550,7 +550,7 @@ GAMES.push(
 
   // ── 8. 소리 듣고 계이름 ──
   {
-    id: "ear", emoji: "🎧", title: "소리 듣고 계이름",
+    id: "ear", cat: "listen", emoji: "🎧", title: "소리 듣고 계이름",
     desc: (g) => (g === "low" ? "도 소리를 듣고 → 도·미·솔 중 맞히기" : "도 소리를 듣고 → 도~시 7음 맞히기"),
     start(api) {
       const low = api.grade === "low";
